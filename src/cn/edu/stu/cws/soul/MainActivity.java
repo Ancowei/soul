@@ -1,6 +1,5 @@
 package cn.edu.stu.cws.soul;
 
-import cn.edu.stu.wxy.soul.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
