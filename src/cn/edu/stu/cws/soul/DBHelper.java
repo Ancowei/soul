@@ -79,6 +79,22 @@ public class DBHelper {
 		return essayList;
 	}
 
+	/* 判断指定的文章是否已经被收藏 */
+	public boolean isInCollection(Essay e) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery("select * from Collection where EssayID = ?",
+				new String[]{String.valueOf(e.ID)});
+		return cursor.getCount() != 0;
+	}
+
+	/* 收藏指定的文章 */
+	public void addToCollection(Essay e) {
+		if(isInCollection(e))
+			return;
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("insert into Collection(EssayID) values(?)", new Object[]{e.ID});
+	}
+
 	private SQLiteDatabase getWritableDatabase()
 	{
 		File dbFile = this.context.getDatabasePath(dbName);
