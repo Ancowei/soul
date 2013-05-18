@@ -13,11 +13,16 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_main);
+		//FIXME: 下面的代码仅用于测试
 		DBHelper helper = new DBHelper(this, "essay.db");
 		List<EssayType> types = helper.getEssayTypes();
 		TextView text = new TextView(this);
 		for(int i = 0; i < types.size(); ++i) {
-			text.append(types.get(i).Name);
+			text.append(types.get(i).Name + ":\n");
+			List<Essay> essayList = helper.getEssay(types.get(i));
+			for(int j = 0; j < essayList.size(); ++j)
+				text.append(essayList.get(j).Title
+						+ " (" + essayList.get(j).Content + ")\n");
 			text.append("\n");
 		}
 		this.setContentView(text);

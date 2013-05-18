@@ -23,13 +23,7 @@ public class DBHelper {
 		this.copyDatabase();
 	}
 
-	private SQLiteDatabase getWritableDatabase()
-	{
-		File dbFile = this.context.getDatabasePath(dbName);
-		return SQLiteDatabase.openDatabase(dbFile.getAbsolutePath(), null,
-				SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READWRITE);
-	}
-
+	/* 获取分类列表 */
 	public List<EssayType> getEssayTypes() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery("select ID, Name, MusicFileName "
@@ -46,6 +40,32 @@ public class DBHelper {
 		}
 		db.close();
 		return essayTypes;
+	}
+
+	/* 获取某个分类的所有文章 */
+	public List<Essay> getEssay(EssayType essayType) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery("select ID, Title, Content, ImageFileName "
+				+ "from Essay where EssayTypeID = ?",
+				new String[]{String.valueOf(essayType.ID)});
+		List<Essay> essayList = new ArrayList<Essay>();
+		while(cursor.moveToNext()) {
+			Essay e = new Essay();
+			e.ID = cursor.getInt(0);
+			e.Title = cursor.getString(1);
+			e.Content = cursor.getString(2);
+			e.ImageFileName = cursor.getString(3);
+			e.essayType = essayType;
+			essayList.add(e);
+		}
+		return essayList;
+	}
+
+	private SQLiteDatabase getWritableDatabase()
+	{
+		File dbFile = this.context.getDatabasePath(dbName);
+		return SQLiteDatabase.openDatabase(dbFile.getAbsolutePath(), null,
+				SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READWRITE);
 	}
 
 	private void copyDatabase() {
