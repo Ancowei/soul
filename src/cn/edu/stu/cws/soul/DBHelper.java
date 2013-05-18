@@ -96,6 +96,26 @@ public class DBHelper {
 		db.execSQL("insert into Collection(EssayID) values(?)", new Object[]{e.ID});
 	}
 
+	/* 更新数据库 */
+	public void updateDatabase(String newDbFilePath) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase newDb = SQLiteDatabase.openDatabase(newDbFilePath, null,
+				SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READWRITE);
+		Cursor cursor = db.rawQuery("select EssayID from Collection order by ID", null);
+		newDb.execSQL("delete from Collection");
+		while(cursor.moveToNext()) {
+			newDb.execSQL("insert into Collection(EssayID) values(?)",
+					new Object[]{cursor.getInt(0)});
+		}
+		db.close();
+		newDb.close();
+
+		File oldDbFile = this.context.getDatabasePath(dbName);
+		File newDbFile = new File(newDbFilePath);
+		oldDbFile.delete();
+		newDbFile.renameTo(oldDbFile);
+	}
+
 	private SQLiteDatabase getWritableDatabase()
 	{
 		File dbFile = this.context.getDatabasePath(dbName);
