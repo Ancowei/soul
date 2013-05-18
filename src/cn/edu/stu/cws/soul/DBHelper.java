@@ -61,6 +61,24 @@ public class DBHelper {
 		return essayList;
 	}
 
+	public List<Essay> getEssayFromCollection() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery("select Essay.ID, Title, Content, ImageFileName "
+				+ "from Collection, Essay where Collection.EssayID = Essay.ID "
+				+ "order by Collection.ID", null);
+		List<Essay> essayList = new ArrayList<Essay>();
+		while(cursor.moveToNext()) {
+			Essay e = new Essay();
+			e.ID = cursor.getInt(0);
+			e.Title = cursor.getString(1);
+			e.Content = cursor.getString(2);
+			e.ImageFileName = cursor.getString(3);
+			e.essayType = null; //TODO: 获取文章类型
+			essayList.add(e);
+		}
+		return essayList;
+	}
+
 	private SQLiteDatabase getWritableDatabase()
 	{
 		File dbFile = this.context.getDatabasePath(dbName);
