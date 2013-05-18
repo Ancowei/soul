@@ -61,6 +61,7 @@ public class DBHelper {
 		return essayList;
 	}
 
+	/* 获取收藏的文章 */
 	public List<Essay> getEssayFromCollection() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery("select Essay.ID, Title, Content, ImageFileName "
