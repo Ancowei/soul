@@ -3,7 +3,10 @@ package cn.edu.stu.cws.soul;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -11,16 +14,28 @@ import android.widget.ImageButton;
 public class GridViewAdapter extends BaseAdapter {
 	private Context context;
 	private List<EssayType> types;
+	private List<ImageButton> buttons;
 
 	GridViewAdapter(Context c) {
 		this.context = c;
 		DBHelper helper = new DBHelper(this.context, "essay.db");
 		types = helper.getEssayTypes();
+		for(int i = 0; i <= types.size(); ++i) {
+			ImageButton imgButton = new ImageButton(this.context);
+			imgButton.setImageResource(R.drawable.ic_launcher);
+			imgButton.setOnClickListener(new OnClickListener(){
+				public void onClick(View view) {
+					Intent intent = new Intent(view.getContext(), CategoryActivity.class);
+				}
+			}
+			);
+			buttons.add(imgButton);
+		}
 	}
 
 	@Override
 	public int getCount() {
-		return types.size() + 1;
+		return buttons.size();
 	}
 
 	@Override
@@ -37,9 +52,7 @@ public class GridViewAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int pos, View arg1, ViewGroup arg2) {
-		ImageButton imgButton = new ImageButton(this.context);
-		imgButton.setImageResource(R.drawable.ic_launcher);
-		return imgButton;
+		return buttons.get(pos);
 	}
 
 }
