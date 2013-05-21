@@ -21,6 +21,9 @@ public class GridViewAdapter extends BaseAdapter {
 		DBHelper helper = new DBHelper(this.context, "essay.db");
 		buttons = new ArrayList<ImageButton>();
 		types = helper.getEssayTypes();
+		EssayType et = new EssayType();
+		et.ID = -1;
+		types.add(et); //essay collection
 		for(int i = 0; i < types.size(); ++i) {
 			final EssayType t = types.get(i);
 			ImageButton imgButton = new ImageButton(this.context);
