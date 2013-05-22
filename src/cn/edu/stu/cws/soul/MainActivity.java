@@ -1,19 +1,23 @@
 package cn.edu.stu.cws.soul;
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-import android.widget.TextView;
+import android.widget.GridView;
 
 public class MainActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_main);
+
+		setContentView(R.layout.activity_main);
+		GridView gridView = (GridView) this.findViewById(R.id.gridViewMain);
+		GridViewAdapter gvAdapter = new GridViewAdapter(this);
+		gridView.setAdapter(gvAdapter);
+
 		//FIXME: 下面的代码仅用于测试
+/*
 		DBHelper helper = new DBHelper(this, "essay.db");
 		List<EssayType> types = helper.getEssayTypes();
 		List<Essay> essayList;
@@ -34,6 +38,7 @@ public class MainActivity extends Activity {
 			text.append(essayList.get(j).Title
 					+ " (" + essayList.get(j).Content + ")\n");
 		this.setContentView(text);
+*/
 	}
 
 	@Override
