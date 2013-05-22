@@ -36,7 +36,7 @@ public class CategoryActivity extends Activity {
 			imgView.setImageResource(R.drawable.ic_launcher);
 			imgView.setOnClickListener(new OnClickListener(){
 				public void onClick(View view) {
-					Intent intent = new Intent(view.getContext(), CategoryActivity.class);
+					Intent intent = new Intent(view.getContext(), EssayActivity.class);
 					intent.putExtra("Title",e.Title);
 					intent.putExtra("Content",	e.Content);
 					intent.putExtra("ImageFileName", e.ImageFileName);
