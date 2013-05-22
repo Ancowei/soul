@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;  
 import android.widget.TextView;  
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.Menu;
 import android.view.View.OnClickListener;
 
@@ -27,13 +29,25 @@ public class CategoryActivity extends Activity {
 		LinearLayout layout = (LinearLayout)this.findViewById(R.id.svLinearLayout);
 		DBHelper helper = new DBHelper(this, "essay.db");
 		List<Essay> essays;
-		if(type.ID == -1) essays = helper.getEssayFromCollection();
-		else essays = helper.getEssay(type);
+		if(type.ID == -1) {
+			essays = helper.getEssayFromCollection();
+			this.setTitle("我的收藏");
+		}
+		else {
+			essays = helper.getEssay(type);
+			this.setTitle(intent.getStringExtra("catName"));
+		}
 		Log.d("Cat", String.valueOf(essays.size()));
 		for(int i = 0; i < essays.size(); ++i) {
+			Bitmap bitmap = null;
 			final Essay e = essays.get(i);
 			ImageView imgView = new ImageView(this);
-			imgView.setImageResource(R.drawable.ic_launcher);
+			try{
+				bitmap=BitmapFactory.decodeStream(this.openFileInput(e.ImageFileName));
+			}catch(Exception e1){
+				e1.printStackTrace();
+			}
+			imgView.setImageBitmap(bitmap);
 			imgView.setOnClickListener(new OnClickListener(){
 				public void onClick(View view) {
 					Intent intent = new Intent(view.getContext(), EssayActivity.class);

@@ -11,22 +11,16 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="128dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_launcher" />
 
-    <EditText
-        android:id="@+id/editText1"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:focusable="false"
-        android:text="hello" >
-
-        <requestFocus />
-    </EditText>
+        android:layout_height="match_parent"
+        android:text="TextView" />
 
 </LinearLayout>

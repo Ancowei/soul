@@ -32,6 +32,7 @@ public class GridViewAdapter extends BaseAdapter {
 				public void onClick(View view) {
 					Intent intent = new Intent(view.getContext(), CategoryActivity.class);
 					intent.putExtra("catID", t.ID);
+					intent.putExtra("catName", t.Name);
 					view.getContext().startActivity(intent);
 				}
 			}

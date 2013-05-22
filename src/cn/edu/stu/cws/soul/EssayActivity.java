@@ -6,11 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class EssayActivity extends Activity {
-	private EditText m_text;
+	private TextView m_text;
 	private Bitmap m_bitmap;
 	private ImageView m_ImageView;
 	
@@ -28,14 +30,14 @@ public class EssayActivity extends Activity {
 			m_bitmap=BitmapFactory.decodeStream(this.openFileInput(ImageFileName));
 		}catch(Exception e){
 			e.printStackTrace();
-			
 		}
         //获取完毕
+		m_ImageView = (ImageView) this.findViewById(R.id.imageView);
 		m_ImageView.setImageBitmap(m_bitmap);
-		m_text = (EditText)findViewById(R.id.editText1);
+		m_text = (TextView)findViewById(R.id.textView);
 		m_text.setText(content);
 		m_text.setMovementMethod(ScrollingMovementMethod.getInstance());
-		//m_text.setSelection(text.getText().length(), text.getText().length());
+		this.setTitle(title);
 	}
 
 }
