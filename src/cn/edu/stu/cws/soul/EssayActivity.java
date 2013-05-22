@@ -12,6 +12,8 @@ import android.widget.ImageView;
 public class EssayActivity extends Activity {
 	private EditText m_text;
 	private Bitmap m_bitmap;
+	private ImageView m_ImageView;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class EssayActivity extends Activity {
 			
 		}
         //获取完毕
+		m_ImageView.setImageBitmap(m_bitmap);
 		m_text = (EditText)findViewById(R.id.editText1);
 		m_text.setText(content);
 		m_text.setMovementMethod(ScrollingMovementMethod.getInstance());

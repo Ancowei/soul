@@ -26,6 +26,7 @@
             android:name="cn.edu.stu.cws.soul.CategoryActivity"
             android:label="@string/title_activity_category" >
         </activity>
+        <activity android:name="EssayActivity"></activity>
     </application>
 
 </manifest>
