@@ -11,7 +11,6 @@ import java.util.List;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class DBHelper {
 	String dbName;
@@ -125,8 +124,6 @@ public class DBHelper {
 
 	private void copyDatabase() {
 		File dbFile = this.context.getDatabasePath(dbName);
-		Log.d("DBHelper", dbFile.getAbsolutePath());
-		Log.d("DBHelper", String.valueOf(dbFile.exists()));
 		//数据库不存在则拷贝
 		if(!dbFile.exists()){
 			File dbDir = new File(dbFile.getParent());
