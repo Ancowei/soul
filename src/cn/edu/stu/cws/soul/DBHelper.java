@@ -11,6 +11,7 @@ import java.util.List;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 
 public class DBHelper {
 	String dbName;
@@ -27,7 +28,7 @@ public class DBHelper {
 	/* 获取分类列表 */
 	public List<EssayType> getEssayTypes() {
 		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.rawQuery("select ID, Name, MusicFileName "
+		Cursor cursor = db.rawQuery("select ID, Name "
 				+ "from EssayType order by ID", null);
 		List<EssayType> essayTypes = new ArrayList<EssayType>();
 		EssayType t = null;
@@ -36,7 +37,7 @@ public class DBHelper {
 			t = new EssayType();
 			t.ID = cursor.getInt(0);
 			t.Name = cursor.getString(1);
-			t.MusicFileName = cursor.getString(2);
+			//t.MusicFileName = cursor.getString(2);
 			essayTypes.add(t);
 		}
 		db.close();
@@ -44,19 +45,20 @@ public class DBHelper {
 	}
 
 	/* 获取某个分类的所有文章 */
-	public List<Essay> getEssay(EssayType essayType) {
+	public List<Essay> getEssay(int essayTypeID) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.rawQuery("select ID, Title, Content, ImageFileName "
+		Cursor cursor = db.rawQuery("select ID, Title, Content, Image "
 				+ "from Essay where EssayTypeID = ?",
-				new String[]{String.valueOf(essayType.ID)});
+				new String[]{String.valueOf(essayTypeID)});
 		List<Essay> essayList = new ArrayList<Essay>();
 		while(cursor.moveToNext()) {
 			Essay e = new Essay();
+			byte[] bytes;
 			e.ID = cursor.getInt(0);
 			e.Title = cursor.getString(1);
 			e.Content = cursor.getString(2);
-			e.ImageFileName = cursor.getString(3);
-			e.essayType = essayType;
+			bytes = cursor.getBlob(3);
+			e.Image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 			essayList.add(e);
 		}
 		return essayList;
@@ -65,20 +67,39 @@ public class DBHelper {
 	/* 获取收藏的文章 */
 	public List<Essay> getEssayFromCollection() {
 		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.rawQuery("select Essay.ID, Title, Content, ImageFileName "
+		Cursor cursor = db.rawQuery("select Essay.ID, Title, Content, Image "
 				+ "from Collection, Essay where Collection.EssayID = Essay.ID "
 				+ "order by Collection.ID", null);
 		List<Essay> essayList = new ArrayList<Essay>();
 		while(cursor.moveToNext()) {
 			Essay e = new Essay();
+			byte[] bytes;
 			e.ID = cursor.getInt(0);
 			e.Title = cursor.getString(1);
 			e.Content = cursor.getString(2);
-			e.ImageFileName = cursor.getString(3);
-			e.essayType = null; //TODO: 获取文章类型
+			bytes = cursor.getBlob(3);
+			e.Image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 			essayList.add(e);
 		}
 		return essayList;
+	}
+	
+	public Essay getEssayByID(int essayID) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery("select ID, Title, Content, Image "
+				+ "from Essay where ID = ?",
+				new String[]{String.valueOf(essayID)});
+		Essay e = null;
+		if(cursor.moveToNext()) {
+			e = new Essay();
+			byte[] bytes;
+			e.ID = cursor.getInt(0);
+			e.Title = cursor.getString(1);
+			e.Content = cursor.getString(2);
+			bytes = cursor.getBlob(3);
+			e.Image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+		}
+		return e;
 	}
 
 	/* 判断指定的文章是否已经被收藏 */

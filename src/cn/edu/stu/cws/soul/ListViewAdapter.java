@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
@@ -26,29 +25,24 @@ public class ListViewAdapter extends BaseAdapter {
 	List<LinearLayout> layouts;
 
 	ListViewAdapter(Context c, Activity act) {
-		EssayType type = new EssayType();
 		Intent intent = act.getIntent();
-		type.ID = intent.getIntExtra("catID", 1);
+		int typeID = intent.getIntExtra("catID", 1);
 
 		DBHelper helper = new DBHelper(c, "essay.db");
-		if(type.ID == DBHelper.COLLECTION) {
+		if(typeID == DBHelper.COLLECTION) {
 			essays = helper.getEssayFromCollection();
 			act.setTitle(DBHelper.COLLECTION_NAME);
 		}
 		else {
-			essays = helper.getEssay(type);
+			essays = helper.getEssay(typeID);
 			act.setTitle(intent.getStringExtra("catName"));
 		}
 		layouts = new ArrayList<LinearLayout>();
 		for(int i = 0; i < essays.size(); ++i) {
-			Bitmap bitmap = null;
+			Bitmap bitmap = essays.get(i).Image;
 			final Essay e = essays.get(i);
 			ImageView imgView = new ImageView(act);
-			try{
-				bitmap=BitmapFactory.decodeStream(act.openFileInput(e.ImageFileName));
-			}catch(Exception e1){
-				e1.printStackTrace();
-			}
+
 			imgView.setImageBitmap(bitmap);
 			imgView.setLayoutParams(new LinearLayout.LayoutParams(
 					0,
@@ -79,9 +73,10 @@ public class ListViewAdapter extends BaseAdapter {
 			layout.setOnClickListener(new OnClickListener(){
 				public void onClick(View view) {
 					Intent intent = new Intent(view.getContext(), EssayActivity.class);
+					intent.putExtra("EssayID", e.ID);
 					intent.putExtra("Title",e.Title);
 					intent.putExtra("Content",	e.Content);
-					intent.putExtra("ImageFileName", e.ImageFileName);
+//					intent.putExtra("ImageFileName", e.ImageFileName);
 					view.getContext().startActivity(intent);
 				}
 			}
