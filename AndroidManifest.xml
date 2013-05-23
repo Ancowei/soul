@@ -23,8 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="cn.edu.stu.cws.soul.CategoryActivity"
-            android:label="@string/title_activity_category" >
+            android:name="cn.edu.stu.cws.soul.CategoryActivity" >
         </activity>
         <activity android:name="EssayActivity"></activity>
     </application>

@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +12,6 @@ public class EssayActivity extends Activity {
 	private TextView m_text;
 	private Bitmap m_bitmap;
 	private ImageView m_ImageView;
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +32,7 @@ public class EssayActivity extends Activity {
 		m_ImageView.setImageBitmap(m_bitmap);
 		m_text = (TextView)findViewById(R.id.textView);
 		m_text.setText(content);
-		m_text.setMovementMethod(ScrollingMovementMethod.getInstance());
+		//m_text.setMovementMethod(ScrollingMovementMethod.getInstance());
 		this.setTitle(title);
 	}
 
