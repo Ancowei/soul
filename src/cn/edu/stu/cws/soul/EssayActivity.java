@@ -19,7 +19,7 @@ public class EssayActivity extends Activity {
 		//获取图片和文章
 		Intent intent = getIntent();
 		DBHelper helper = new DBHelper(this, "essay.db");
-		int essayID = intent.getIntExtra("essayID", 1);
+		int essayID = intent.getIntExtra("EssayID", 1);
 		String title = intent.getStringExtra("Title");
 		String content = intent.getStringExtra("Content");
 //		String ImageFileName= intent.getStringExtra("ImageFileName");
