@@ -8,10 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,7 +48,34 @@ public class ListViewAdapter extends BaseAdapter {
 				e1.printStackTrace();
 			}
 			imgView.setImageBitmap(bitmap);
-			imgView.setOnClickListener(new OnClickListener(){
+			imgView.setLayoutParams(new LinearLayout.LayoutParams(
+					0,
+					LinearLayout.LayoutParams.MATCH_PARENT,
+					1.0f));
+
+			TextView textView = new TextView(act);
+			textView.setLayoutParams(new LinearLayout.LayoutParams(
+					0,
+					LinearLayout.LayoutParams.WRAP_CONTENT,
+					2.0f));
+			int pos = 32;
+			String content;
+			if(e.Content.length() <= pos)
+				content = "\n" + e.Content.replace("\n", "");
+			else
+				content = "\n" + e.Content.substring(0, pos).replace("\n", "") + "...";
+			SpannableString str = new SpannableString(e.Title + content);
+			str.setSpan(new AbsoluteSizeSpan(18, true), 0, e.Title.length(),
+					Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+			str.setSpan(new AbsoluteSizeSpan(15, true), e.Title.length(), str.length(),
+					Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+			textView.setText(str);
+
+			LinearLayout layout = new LinearLayout(c);
+			layout.setOrientation(LinearLayout.HORIZONTAL);
+			layout.addView(textView);
+			layout.addView(imgView);
+			layout.setOnClickListener(new OnClickListener(){
 				public void onClick(View view) {
 					Intent intent = new Intent(view.getContext(), EssayActivity.class);
 					intent.putExtra("Title",e.Title);
@@ -56,21 +85,10 @@ public class ListViewAdapter extends BaseAdapter {
 				}
 			}
 			);
-			imgView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 128));
-			TextView textView = new TextView(act);
-			int pos = 25;
-			if(e.Content.length() <= pos)
-				textView.setText(e.Content);
-			else
-				textView.setText(e.Content.substring(0, pos) + "...");
-			LinearLayout layout = new LinearLayout(c);
-			layout.setOrientation(LinearLayout.VERTICAL);
-			layout.addView(imgView);
-			layout.addView(textView);
 			layouts.add(layout);
 		}
 	}
-
+	
 	@Override
 	public int getCount() {
 		return layouts.size();
