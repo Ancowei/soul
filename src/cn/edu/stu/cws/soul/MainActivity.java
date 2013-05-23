@@ -1,5 +1,6 @@
 package cn.edu.stu.cws.soul;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,9 +24,11 @@ public class MainActivity extends Activity {
 		try {
 			String[] imgFiles = this.getAssets().list("essay_img");
 			for(int i = 0; i < imgFiles.length; ++i) {
+				File imgFile = this.getFileStreamPath(imgFiles[i]);
+				if(imgFile.exists())
+					continue;
 				InputStream is = this.getAssets().open("essay_img/" + imgFiles[i]);
-				FileOutputStream os =
-						new FileOutputStream(this.getFileStreamPath(imgFiles[i]));
+				FileOutputStream os = new FileOutputStream(imgFile);
 				byte[] buffer = new byte[8192];
 				int count = 0;
 				while ((count = is.read(buffer)) > 0) {
