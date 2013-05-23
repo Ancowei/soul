@@ -22,7 +22,7 @@ public class GridViewAdapter extends BaseAdapter {
 		buttons = new ArrayList<ImageButton>();
 		types = helper.getEssayTypes();
 		EssayType et = new EssayType();
-		et.ID = -1;
+		et.ID = DBHelper.COLLECTION;
 		types.add(et); //essay collection
 		for(int i = 0; i < types.size(); ++i) {
 			final EssayType t = types.get(i);

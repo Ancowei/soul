@@ -31,9 +31,9 @@ public class ListViewAdapter extends BaseAdapter {
 		type.ID = intent.getIntExtra("catID", 1);
 
 		DBHelper helper = new DBHelper(c, "essay.db");
-		if(type.ID == -1) {
+		if(type.ID == DBHelper.COLLECTION) {
 			essays = helper.getEssayFromCollection();
-			act.setTitle("我的收藏");
+			act.setTitle(DBHelper.COLLECTION_NAME);
 		}
 		else {
 			essays = helper.getEssay(type);

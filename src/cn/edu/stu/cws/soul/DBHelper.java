@@ -15,6 +15,8 @@ import android.database.sqlite.SQLiteDatabase;
 public class DBHelper {
 	String dbName;
 	Context context;
+	public static int COLLECTION = -1;
+	public static String COLLECTION_NAME = "我的收藏";
 
 	public DBHelper(Context context, String name) {
 		this.dbName = name;
