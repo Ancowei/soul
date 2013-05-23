@@ -17,7 +17,9 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 public class ListViewAdapter extends BaseAdapter {
 	List<Essay> essays;
@@ -56,14 +58,11 @@ public class ListViewAdapter extends BaseAdapter {
 			TextView textView = new TextView(act);
 			textView.setLayoutParams(new LinearLayout.LayoutParams(
 					0,
-					LinearLayout.LayoutParams.WRAP_CONTENT,
+					LinearLayout.LayoutParams.MATCH_PARENT,
 					2.0f));
-			int pos = 32;
+			textView.setMaxLines(3);
 			String content;
-			if(e.Content.length() <= pos)
-				content = "\n" + e.Content.replace("\n", "");
-			else
-				content = "\n" + e.Content.substring(0, pos).replace("\n", "") + "...";
+			content = "\n" + e.Content.replace("\n", "");
 			SpannableString str = new SpannableString(e.Title + content);
 			str.setSpan(new AbsoluteSizeSpan(18, true), 0, e.Title.length(),
 					Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -75,6 +74,8 @@ public class ListViewAdapter extends BaseAdapter {
 			layout.setOrientation(LinearLayout.HORIZONTAL);
 			layout.addView(textView);
 			layout.addView(imgView);
+			layout.setLayoutParams(
+					new ListView.LayoutParams(LayoutParams.MATCH_PARENT, Utils.dp2px(c, 64.0f)));
 			layout.setOnClickListener(new OnClickListener(){
 				public void onClick(View view) {
 					Intent intent = new Intent(view.getContext(), EssayActivity.class);
